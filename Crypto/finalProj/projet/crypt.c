@@ -10,14 +10,48 @@
  *   */
 void xor_crypt(char * key, char * texte, char* chiffre)
 {
+	int i=0;
+	char *clef;
+	char c;
+	clef = key;
+
+	while (texte[i] != '\0'){
+		c= texte[i];
+		if(*clef == '\0') clef=key;
+		c^=*(clef++);
+		chiffre[i] = c;
+		printf("c : i : %d texte: %d, chiffre : %d\n",i,texte[i], c);
+		i++;
+	}
+	(chiffre+i) = '\0';
+	
+
 
 }
+
 
 /**
  *  * dÈchiffrement utilisant le ou exclusif
  *   */
 void xor_decrypt(char * key, char * texte, char* chiffre)
 {
+	int i=0;
+	char *clef;
+	char c;
+	clef = key;
+	printf("i : %d\n taille dechiffreÈ : %d\n taille texte : %d \n",i,strlen(chiffre),strlen(texte));
+
+	while (texte[i] != '\0'){
+		c= texte[i];
+		if(*clef == '\0') clef=key;
+		c^=*(clef++);
+		*(chiffre+i) = c;
+		printf("d: i : %d texte: %d\n",i,texte[i]);
+		i++;
+	}
+	*(chiffre+i) = '\0';
+	printf("d: i : %d texte: %d\n",i,texte[i]);
+	printf("i : %d\n taille dÈchiffreÈ : %d\n",i,strlen(chiffre));
 	
 }
 
@@ -177,7 +211,7 @@ void inttotext(char * texte, char* chiffre){
 /**
  * Chiffrement RSA
  */
-void rsa_crypt(int e, int n, char * texte, char* chiffre, int size)
+/*void rsa_crypt(int e, int n, char * texte, char* chiffre, int size)
 {
     int tmp;
 	Huge buf=0;
@@ -191,20 +225,20 @@ void rsa_crypt(int e, int n, char * texte, char* chiffre, int size)
 		tmp=*pt-'0';
 		if(10*buf + tmp >= n){
 		    // on utilise le $ comme séparateur de bloc
-			sprintf(chiffre+strlen(chiffre),"%ld$%c",/* TODO Chiffrement de buf */,'\0');
+			sprintf(chiffre+strlen(chiffre),"%ld$%c",/* TODO Chiffrement de buf *//*,'\0');
 			buf=0;
 		}
 		buf=10*buf+tmp;
 		pt++;
 	}
-	sprintf(chiffre+strlen(chiffre),"%ld$%c", /* TODO Chiffrement de Buf */,'\0');
+	sprintf(chiffre+strlen(chiffre),"%ld$%c", /* TODO Chiffrement de Buf *//*,'\0');
 	printf("\n");
 }
 
 /**
  * Déchiffrement RSA
  */
-void rsa_decrypt(int d, int n, char * texte, char* chiffre)
+/*void rsa_decrypt(int d, int n, char * texte, char* chiffre)
 {
 	int tmp;
 	char* pt=texte;
@@ -215,7 +249,7 @@ void rsa_decrypt(int d, int n, char * texte, char* chiffre)
 	while((*pt) != '\0'){
 		// on utilise le $ comme séparateur de bloc
 	    if((*pt) == '$'){
-			sprintf(tmpc+strlen(tmpc),"%ld%c", /* Dechiffrement de buf */,'\0');
+			sprintf(tmpc+strlen(tmpc),"%ld%c", /* Dechiffrement de buf *//*,'\0');
 			buf=0;
 		}else{
 			tmp=*pt-'0';
@@ -223,9 +257,9 @@ void rsa_decrypt(int d, int n, char * texte, char* chiffre)
 		}
 		pt++;
 	}
-	sprintf(tmpc+strlen(tmpc),"%ld%c",/* Dechiffrement de buf*/,'\0');
+	sprintf(tmpc+strlen(tmpc),"%ld%c",/* Dechiffrement de buf*//*,'\0');
 	
 	inttotext(tmpc,chiffre);
 }
-
+*/
 
