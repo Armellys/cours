@@ -5,6 +5,7 @@ CC	=	gcc
 CFLAGS	=  	-Wall
 CFLAGS  += 	-DDEBUG -D_GNU_SOURCE
 CFLAGS  += 	-g
+CFLAGS  +=	-fPIC 
 
 PREFIX ?= 	${DESTDIR}/usr
 LIBDIR	=	${PREFIX}/lib

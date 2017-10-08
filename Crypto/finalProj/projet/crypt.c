@@ -8,7 +8,7 @@
 /**
  *  * chiffrement utilisant le ou exclusif
  *   */
-void xor_crypt(char * key, char * texte, char* chiffre)
+void xor_crypt(char * key, char * texte, char* chiffre, int* taille)
 {
 	int i=0;
 	char *clef;
@@ -20,12 +20,10 @@ void xor_crypt(char * key, char * texte, char* chiffre)
 		if(*clef == '\0') clef=key;
 		c^=*(clef++);
 		chiffre[i] = c;
-		printf("c : i : %d texte: %d, chiffre : %d\n",i,texte[i], c);
 		i++;
 	}
-	(chiffre+i) = '\0';
-	
-
+	*(chiffre+i) = '\0';
+	*taille = i;
 
 }
 
@@ -33,25 +31,21 @@ void xor_crypt(char * key, char * texte, char* chiffre)
 /**
  *  * déchiffrement utilisant le ou exclusif
  *   */
-void xor_decrypt(char * key, char * texte, char* chiffre)
+void xor_decrypt(char * key, char * texte, char* chiffre, int taille)
 {
 	int i=0;
 	char *clef;
 	char c;
 	clef = key;
-	printf("i : %d\n taille dechiffreé : %d\n taille texte : %d \n",i,strlen(chiffre),strlen(texte));
 
-	while (texte[i] != '\0'){
+	while (i<taille){
 		c= texte[i];
 		if(*clef == '\0') clef=key;
 		c^=*(clef++);
 		*(chiffre+i) = c;
-		printf("d: i : %d texte: %d\n",i,texte[i]);
 		i++;
 	}
 	*(chiffre+i) = '\0';
-	printf("d: i : %d texte: %d\n",i,texte[i]);
-	printf("i : %d\n taille déchiffreé : %d\n",i,strlen(chiffre));
 	
 }
 

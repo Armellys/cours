@@ -1,12 +1,12 @@
 /**
  *  * chiffrement utilisant le ou exclusif
  *   */
-void xor_crypt(char* key, char* texte, char* chiffre);
+void xor_crypt(char* key, char* texte, char* chiffre,int*);
 
 /**
  *  * déchiffrement utilisant le ou exclusif
  *   */
-void xor_decrypt(char* key, char* chiffre, char* clair);
+void xor_decrypt(char* key, char* chiffre, char* clair,int);
 
 /**
  *  * chiffrement utilisant cesar

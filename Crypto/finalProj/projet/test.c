@@ -15,14 +15,12 @@ int main(int argc, char *argv[]){
 	char* chiffre;
 	char* dechiffre;
 	int size;
-
+	int taille;
 	pFile = fopen( argv[1] , "rb");
 	if (pFile == NULL) return 1;
-
 	fseek (pFile, 0 , SEEK_END);  // Obtient la taille du fichier
 	lsize = ftell (pFile);
 	rewind (pFile);
-
 	texte = (char*) malloc (lsize+1);   //Alloue mémoire pour le tampon, de la taille du fichier
 	if (texte ==  NULL) return 2;
 
@@ -35,8 +33,8 @@ int main(int argc, char *argv[]){
 	chiffre = (char *)malloc(8+strlen(texte) * sizeof(char));
 	dechiffre = (char *)malloc(8+strlen(texte) * sizeof(char));
 	printf("----------------   XOR --------------\n");
-	xor_crypt("une cle", texte,chiffre);
-	xor_decrypt("une cle", chiffre, dechiffre);
+	xor_crypt("une cle", texte,chiffre,&taille);
+	xor_decrypt("une cle", chiffre, dechiffre,taille);
 	printf("'Chiffré : %s'\n",chiffre);
 	printf("'Déchiffré : %s'\n",dechiffre);
 	printf("%s\n", strcmp(texte, dechiffre)==0?"ok":"NON");
@@ -89,6 +87,5 @@ int main(int argc, char *argv[]){
 
 	fclose (pFile);  // ferme le flux et
 	free(texte); // libère espace tampon
-
 	return 0;
 }
