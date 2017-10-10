@@ -1,0 +1,79 @@
+
+Mettre le clavier en français : loadkeys fr
+
+------- Pour faire un environnement IP SSH -> travailler sur le terminal machine réelle ------------
+
+> dhcpcd eth0
+> ifconfig -a
+> passwd 					// initialiser le mdp
+> time /etc/init.d/sshd start 			// démarrer sshd
+
+> ssh root@[IP_IMAGE]  				// sur machine réelle
+
+-----------------------------------------------------------------------------------------------------
+
+
+---------------- Préparation des disques --------------------
+
+> cfdisk /dev/sda 				// pour créer les partitions, ici du disque sda
+> mke2fs /dev/sda1 				// Crée systeme de fichier ext2, suffisant pour boot
+> mke2fs -j /dev/sda2				// système ext3
+> mkswap /dev/sda3 && swapon /dev/sda3		// créer et activer la mémoire virtuelle 
+
+// on monte les repertoires et on crée les points de montage (comme /mnt/gentoo/boot)
+> mount /dev/sda2 /mnt/gentoo
+> mkdir /mnt/gentoo/boot
+> mount /dev/sda1 /mnt/gentoo/boot
+> cd /mnt/gentoo
+
+-------------------------------------------------------------
+
+
+
+--------------- installation stage 3 ------------------------
+//Vérifier la date
+> date			// ecrit la date
+> date 092312342017 	// pour changer la date au format MMJJhhmmAAAA
+//sur machine réelle pour amener le zip de stage 3
+> scp stage3.zip root@IP:/mnt/gentoo
+// pour dezipper
+> cd /mnt/gentoo
+> time tar xjpf stage3*
+> ls -lh 
+-------------------------------------------------------------
+------------ installation du gestionnaire de paquet ---------
+//sur machine réelle pour amener le zip de portage
+> scp portage.zip root@IP:/mnt/gentoo/usr/
+// pour dezipper
+> cd /mnt/gentoo/usr
+> time tar xjf portage*
+> ls -lh
+--------------------------------------------------------------
+
+
+
+
+----------------- faire le chroot ----------------------------
+> cd /
+> mount -t proc none /mnt/gentoo/proc
+> mount -o bind /dev /mnt/gentoo/dev
+> cp -L /etc/resolv.conf mnt/gentoo/etc/
+> chroot /mnt/gentoo /bin/bash
+> env-update && source /etc/profile		//prendre en compte les nouvelle variable d'env
+
+// choisir fuseau horaire
+> cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
+
+// config nom d'hôte et nom de domaine
+> cd etc/
+> nano -w hosts			// mettre la ligne : 127.0.0.1     NOM.ensi-bourges.fr       localhost
+> nano -w conf.d/hostname	// mettre le nom d'hôte pis avant : NOM.ensi-bourges.fr
+> hostname NOM.ensi-bourges.fr
+> hostname -f			// pour vérifier le nom de domaine
+----------------------------------------------------------------
+
+
+
+
+
+
