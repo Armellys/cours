@@ -75,5 +75,71 @@ Mettre le clavier en français : loadkeys fr
 
 
 
+-------------- Configurer le Noyau -----------------------------
+// sur machine réelle
+> scp kernel.zip root@IP:/mnt/gentoo/usr/src
+// sur VM
+> cd /usr/src/
+> tar jxfv kernel*
+> cd /usr/src/linux/	
+> make menuconfig 		//pour configurer le noyaux facultatif
+> make modules_install
+> cp arch/i386/boot/bzImage /boot/kernel
+> cp System.map/boot
+-----------------------------------------------------------------
+---------------- Configuration sytème ---------------------------
+> cd /etc
+> nano -w fstab 	//configurer fstab, remplacer BOOt, ROOT et SWAP par nos partition (/dev/sda1, etc ...)
+//on peut configurer la connection dans /etc/conf.d/net mais ici rien à faire
+> passwd 		// définir le mot de passe root
+
+// on peut configurer /etc/conf.d/clock pour spécifié le fuseau horaire -> TIMEZONE="Europe/Paris"
+// on peut aussi modifier /etc/rc.conf et /etc/conf.d/rc
+// pour mettre le bon clavier -> /etc/con.d/keymaps -> mettre KEYMAP='fr'
+
+// installation de paquet pour le système 
+> scp package.zip root@IP:/mnt/gentoo/usr/portage //sur machine réelle
+> cd /usr/portage
+> tar jxf packages*
+> time emerge -K syslog-ng vixie-cron 	// -K pour installer des paquets précompilés
+> rc-update add syslog-ng default
+> rc-update add vixie-cron default	// on ajoute les servuces au démarrage
+> emerge -K dhcpcd
+> time emerge -K grub
+> nano -w /boot/grub/grub.conf 	// Configurer le fichier comme ça :
+
+default 0
+timeout 0
+title Gentoo
+root (hd0,0)
+kernel /boot/kernel root=/dev/sda2
+
+>grub
+grub> root (hd0,0)
+grub> setup (hd0)
+grub> quit
+------------------------------------------------------------------
+
+------------------------ Redémarrage -----------------------------
+> exit //quitter chroot
+> umount /mnt/gentoo/proc /mnt/gentoo/boot /mnt/gentoo mnt/gentoo/dev
+> reboot 
+// si ça reboot sur le cd enlever le CD
+-----------------------------------------------------------------
+
+
+
+Ensuite après on peut mettre de nouveau user
+> adduser -g users -G lp,wheel,audio,cdrom,portage,cron -m john  // -G pour mettre les groupes auxquelles il appartient après
+> passwd john 	// définir son mdp
+
+Pour démarrer apache :
+>/etc/init.d/apache2 start
+
+Pour les services :
+> rc -status --all 	//liste les services
+> rc -update del <NOM> 	//supp le service
+> rc -update add <NOM> default //ajoute le service au démarrage
+
 
 
