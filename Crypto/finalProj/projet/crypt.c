@@ -54,7 +54,19 @@ void xor_decrypt(char * key, char * texte, char* chiffre, int taille)
  *   */
 void cesar_crypt(int decallage, char * texte, char* chiffre)
 {
-
+	int i=0;
+	char c;
+	while (texte[i] != '\0'){
+		c = texte[i];
+		if(c>='A' && c<='Z')
+			chiffre[i] = ((c + decallage)-'A')%26 +'A';
+		if(c>='a' && c<='z')
+			chiffre[i] = ((c + decallage)-'a')%26+'a';
+		if(c>='0' && c<='9')
+			chiffre[i] = ((c + decallage)-'0')%10+'0';
+		i++;
+	}
+	*(chiffre+i) = '\0';
 }
 
 /**
@@ -62,6 +74,19 @@ void cesar_crypt(int decallage, char * texte, char* chiffre)
  *   */
 void cesar_decrypt(int decallage, char * texte, char* chiffre)
 {
+	int i=0;
+	char c;
+	while (texte[i] != '\0'){
+		c = texte[i];
+		if(c>='A' && c<='Z')
+			chiffre[i] = ((c - decallage)-'A'+26)%26+'A';
+		if(c>='a' && c<='z')
+			chiffre[i] = ((c - decallage)-'a'+26)%26+'a';
+		if(c>='0' && c<='9')
+			chiffre[i] = ((c - decallage)-'0'+10)%10+'0';
+		i++;
+	}
+	*(chiffre+i) = '\0';
 
 }
 
@@ -70,6 +95,29 @@ void cesar_decrypt(int decallage, char * texte, char* chiffre)
  *   */
 void viginere_crypt(char * key, char * texte, char* chiffre)
 {
+	int i=0;
+	char c;
+	int decallage=1;
+	int taille = strlen(key);
+	int clef;
+	while (texte[i] != '\0'){
+		c = texte[i];
+		clef = key[i%taille]; 
+		if( clef>='A' && clef<='Z')
+			decallage = clef - 'A';
+		if( clef>='a' && clef<='z')
+			decallage = clef - 'a';
+		if( clef>='0' && clef<='1')
+			decallage = clef - '0';
+		if(c>='A' && c<='Z')
+			chiffre[i] = ((c + decallage)-'A')%26 +'A';
+		if(c>='a' && c<='z')
+			chiffre[i] = ((c + decallage)-'a')%26+'a';
+		if(c>='0' && c<='9')
+			chiffre[i] = ((c + decallage)-'0')%10+'0';
+		i++;
+	}
+	*(chiffre+i) = '\0';
 
 }
 
@@ -78,6 +126,26 @@ void viginere_crypt(char * key, char * texte, char* chiffre)
  *   */
 void viginere_decrypt(char * key, char * texte, char* chiffre)
 {
+		int i=0;
+	char c;
+	int decallage;
+	while (texte[i] != '\0'){
+		c = texte[i];
+		if( key[i%strlen(key)]>='A' && key[i%strlen(key)]<='Z')
+			decallage = key[i%strlen(key)] - 'A';
+		if( key[i%strlen(key)]>='a' && key[i%strlen(key)]<='z')
+			decallage = key[i%strlen(key)] - 'a';
+		if( key[i%strlen(key)]>='0' && key[i%strlen(key)]<='1')
+			decallage = key[i%strlen(key)] - '0';
+		if(c>='A' && c<='Z')
+			chiffre[i] = ((c - decallage)-'A')%26 +'A';
+		if(c>='a' && c<='z')
+			chiffre[i] = ((c - decallage)-'a')%26+'a';
+		if(c>='0' && c<='9')
+			chiffre[i] = ((c - decallage)-'0')%10+'0';
+		i++;
+	}
+	*(chiffre+i) = '\0';
 
 }
 

@@ -35,8 +35,8 @@ int main(int argc, char *argv[]){
 	printf("----------------   XOR --------------\n");
 	xor_crypt("une cle", texte,chiffre,&taille);
 	xor_decrypt("une cle", chiffre, dechiffre,taille);
-	printf("'Chiffré : %s'\n",chiffre);
-	printf("'Déchiffré : %s'\n",dechiffre);
+	printf("'%s'\n",chiffre);
+	printf("'%s'\n",dechiffre);
 	printf("%s\n", strcmp(texte, dechiffre)==0?"ok":"NON");
 
 	chiffre = (char *)malloc(8+strlen(texte) * sizeof(char));
