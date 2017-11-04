@@ -3,6 +3,7 @@
 #include <string.h>
 #include "crypt.h" 
 
+
 /**
  *  *
  *   * Usage : xor_crypt key input_file output_file
@@ -75,14 +76,14 @@ int main(int argc, char *argv[]){
 	printf("'%s'\n",dechiffre);
 	printf("%s\n", strcmp(texte, dechiffre)==0?"ok":"NON");
 
-	/*chiffre = (char *)malloc(3*strlen(texte) * sizeof(char));
+	chiffre = (char *)malloc(3*strlen(texte) * sizeof(char));
 	dechiffre = (char *)malloc(3*strlen(texte) * sizeof(char)); 
 	printf("----------------   RSA --------------\n");
 	rsa_crypt(7, 5141, texte, chiffre, strlen(texte));
 	rsa_decrypt(4279, 5141,  chiffre, dechiffre);
 	printf("'%s'\n",chiffre);
 	printf("'%s'\n",dechiffre);
-	printf("%s\n", strcmp(texte, dechiffre)==0?"ok":"NON");*/
+	printf("%s\n", strcmp(texte, dechiffre)==0?"ok":"NON");
 
 
 	fclose (pFile);  // ferme le flux et

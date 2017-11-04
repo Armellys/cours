@@ -154,7 +154,35 @@ void viginere_decrypt(char * key, char * texte, char* chiffre)
  *   */
 void des_crypt(char * key, char * texte, char* chiffre, int size)
 {
+	int i,j;
+	int bol=0;
+	unsigned char blocT[8];
+	unsigned char blocR[8];
+	
 
+	for(i=0;i<size*8;i+=8){
+		// initialisation du bloc de 8octets (64 bits)
+
+		for (j= 0; j < 8; j++)
+		{
+			
+			if(texte[i+j]=='\0' || bol){
+				blocT[j] = 0;
+				bol = 1;
+				continue;
+			}
+			
+			blocT[j] = texte[i+j];
+		}
+		
+
+		des_encipher(blocT, blocR, key); // chiffrage du bloc
+		
+		for (j= 0; j < 8; j++)
+		{
+			chiffre[i+j] = blocR[j];
+		}
+	}
 }
 
 
@@ -163,25 +191,98 @@ void des_crypt(char * key, char * texte, char* chiffre, int size)
  *   */
 void des_decrypt(char * key, char * texte, char* chiffre, int size)
 {
+	int i,j;
+	int bol=0;
+	unsigned char blocT[8];
+	unsigned char blocR[8];
+
+	for(i=0;i<size*8;i+=8){
+
+		// initialisation du bloc de 8 octets (64 bits)
+		for (j= 0; j < 8; j++)
+		{
+			blocT[j] = texte[i+j];
+		}
+		bol = 0;
+
+		des_decipher(blocT, blocR, key); // chiffrage du bloc
+		
+
+		// on met le bloc chiffrÈ dans le rÈsultat
+		for (j= 0; j < 8; j++)
+		{
+			chiffre[i+j] = blocR[j];
+		}
+	}
 
 }
 
-/**
- *  * chiffrement utilisant 3des
- *   */
 void tripledes_crypt(char * key1, char * key2, char * texte, char* chiffre,int size)
 {
+	
+	int i,j;
+	int bol = 0;
+	unsigned char blocT[8];
+	unsigned char blocR[8];
+	unsigned char blocA[8];
+	unsigned char blocB[8];
+
+	for(i=0;i<size*8;i+=8){
+		// initialisation du bloc de 8octets (64 bits)
+		for (j= 0; j < 8; j++)
+		{
+			
+			if(texte[i+j]=='\0' || bol){
+				blocT[j] = 0;
+				bol = 1;
+				continue;
+			}
+			
+			blocT[j] = texte[i+j];
+		}
+
+		des_encipher(blocT, blocB, key1); // chiffrage du bloc
+		des_decipher(blocB, blocA, key2); 
+		des_encipher(blocA, blocR, key1); 
+		// on met le bloc chiffrÈ dans le rÈsultat
+		for (j= 0; j < 8; j++)
+		{
+			chiffre[i+j] = blocR[j];
+		}
+	}
+	
 
 }
 
-
-/**
- *  * dÈchiffrement utilisant 3des
- *   */
 void tripledes_decrypt(char* key1, char* key2, char* texte, char* chiffre, int size)
 {
+	
+	int i,j;
+	unsigned char blocT[8];
+	unsigned char blocR[8];
+	unsigned char blocA[8];
+	unsigned char blocB[8];
 
+	for(i=0;i<size*8;i+=8){
+		// initialisation du bloc de 8octets (64 bits)
+		for (j= 0; j < 8; j++)
+		{
+			
+			blocT[j] = texte[i+j];
+		}
+
+		des_decipher(blocT, blocB, key1); // chiffrage du bloc
+		des_encipher(blocB, blocA, key2); 
+		des_decipher(blocA, blocR, key1); 
+
+		// on met le bloc chiffrÈ dans le rÈsultat
+		for (j= 0; j < 8; j++)
+		{
+			chiffre[i+j] = blocR[j];
+		}
+	}
 }
+
 
 
 /****************************************************************
@@ -273,7 +374,7 @@ void inttotext(char * texte, char* chiffre){
 /**
  * Chiffrement RSA
  */
-/*void rsa_crypt(int e, int n, char * texte, char* chiffre, int size)
+void rsa_crypt(int e, int n, char * texte, char* chiffre, int size)
 {
     int tmp;
 	Huge buf=0;
@@ -287,20 +388,20 @@ void inttotext(char * texte, char* chiffre){
 		tmp=*pt-'0';
 		if(10*buf + tmp >= n){
 		    // on utilise le $ comme séparateur de bloc
-			sprintf(chiffre+strlen(chiffre),"%ld$%c",/* TODO Chiffrement de buf *//*,'\0');
+			sprintf(chiffre+strlen(chiffre),"%ld$%c",modexp(buf,e,n)/* TODO Chiffrement de buf */,'\0');
 			buf=0;
 		}
 		buf=10*buf+tmp;
 		pt++;
 	}
-	sprintf(chiffre+strlen(chiffre),"%ld$%c", /* TODO Chiffrement de Buf *//*,'\0');
+	sprintf(chiffre+strlen(chiffre),"%ld$%c", modexp(buf,e,n)/* TODO Chiffrement de Buf */,'\0');
 	printf("\n");
 }
 
 /**
  * Déchiffrement RSA
  */
-/*void rsa_decrypt(int d, int n, char * texte, char* chiffre)
+void rsa_decrypt(int d, int n, char * texte, char* chiffre)
 {
 	int tmp;
 	char* pt=texte;
@@ -311,7 +412,7 @@ void inttotext(char * texte, char* chiffre){
 	while((*pt) != '\0'){
 		// on utilise le $ comme séparateur de bloc
 	    if((*pt) == '$'){
-			sprintf(tmpc+strlen(tmpc),"%ld%c", /* Dechiffrement de buf *//*,'\0');
+			sprintf(tmpc+strlen(tmpc),"%ld%c", modexp(buf,d,n)/* Dechiffrement de buf */,'\0');
 			buf=0;
 		}else{
 			tmp=*pt-'0';
@@ -319,9 +420,9 @@ void inttotext(char * texte, char* chiffre){
 		}
 		pt++;
 	}
-	sprintf(tmpc+strlen(tmpc),"%ld%c",/* Dechiffrement de buf*//*,'\0');
+	sprintf(tmpc+strlen(tmpc),"%ld%c",modexp(buf,d,n)/* Dechiffrement de buf*/,'\0');
 	
 	inttotext(tmpc,chiffre);
 }
-*/
+
 
