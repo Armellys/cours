@@ -1,0 +1,42 @@
+Certificate:
+    Data:
+        Version: 1 (0x0)
+        Serial Number: 1 (0x1)
+        Signature Algorithm: md5WithRSAEncryption
+        Issuer: C=FR, ST=BOURGES, L=CENTRE, O=STI2A, OU=ENSIB, CN=localhost
+        Validity
+            Not Before: Oct 13 11:59:56 2008 GMT
+            Not After : Oct 13 11:59:56 2009 GMT
+        Subject: C=FR, ST=CENTRE, L=BOURGES, O=STI serveur, CN=localhost
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+            RSA Public Key: (512 bit)
+                Modulus (512 bit):
+                    00:cd:3e:5a:5f:ab:d3:98:88:67:90:0a:f9:68:68:
+                    bb:07:21:b0:8d:08:e2:ca:1a:ec:36:db:75:8c:83:
+                    49:15:a4:ef:86:16:28:56:43:cb:25:6c:3c:5a:9e:
+                    79:a3:b4:60:0a:8a:43:b0:de:75:8a:d2:c0:13:3a:
+                    31:da:a9:0d:e7
+                Exponent: 65537 (0x10001)
+    Signature Algorithm: md5WithRSAEncryption
+        2d:4c:26:6f:42:d9:d1:c5:c5:3b:33:2b:ff:51:d1:70:31:c5:
+        81:f2:56:e5:30:ce:6e:84:df:68:bb:d4:af:62:97:b1:b8:81:
+        60:f6:fd:22:3d:db:f5:9a:33:eb:91:d6:74:28:0f:b0:ac:61:
+        2a:51:5f:ff:51:35:32:9d:5e:60:e1:c5:c6:5d:ef:61:38:df:
+        4a:bb:14:a9:d5:e3:54:0c:1f:59:03:af:1f:74:60:28:a1:ff:
+        65:04:7b:87:31:b9:51:83:86:11:33:db:99:c9:48:66:bb:47:
+        34:bd:c1:93:58:2f:df:02:10:3b:bb:04:c7:3f:ca:ca:c0:c1:
+        90:d8
+-----BEGIN CERTIFICATE-----
+MIIB6TCCAVICAQEwDQYJKoZIhvcNAQEEBQAwZDELMAkGA1UEBhMCRlIxEDAOBgNV
+BAgTB0JPVVJHRVMxDzANBgNVBAcTBkNFTlRSRTEOMAwGA1UEChMFU1RJMkExDjAM
+BgNVBAsTBUVOU0lCMRIwEAYDVQQDEwlsb2NhbGhvc3QwHhcNMDgxMDEzMTE1OTU2
+WhcNMDkxMDEzMTE1OTU2WjBaMQswCQYDVQQGEwJGUjEPMA0GA1UECBMGQ0VOVFJF
+MRAwDgYDVQQHEwdCT1VSR0VTMRQwEgYDVQQKEwtTVEkgc2VydmV1cjESMBAGA1UE
+AxMJbG9jYWxob3N0MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAM0+Wl+r05iIZ5AK
++WhouwchsI0I4soa7DbbdYyDSRWk74YWKFZDyyVsPFqeeaO0YAqKQ7DedYrSwBM6
+MdqpDecCAwEAATANBgkqhkiG9w0BAQQFAAOBgQAtTCZvQtnRxcU7Myv/UdFwMcWB
+8lblMM5uhN9ou9SvYpexuIFg9v0iPdv1mjPrkdZ0KA+wrGEqUV//UTUynV5g4cXG
+Xe9hON9KuxSp1eNUDB9ZA68fdGAoof9lBHuHMblRg4YRM9uZyUhmu0c0vcGTWC/f
+AhA7uwTHP8rKwMGQ2A==
+-----END CERTIFICATE-----
