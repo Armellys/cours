@@ -56,6 +56,7 @@ void cesar_crypt(int decallage, char * texte, char* chiffre)
 {
 	int i=0;
 	char c;
+// la variable c va servir à gerer les différents cas de caractère dans un texte, je ne gère pas les caractères spéciaux
 	while (texte[i] != '\0'){
 		c = texte[i];
 		if(c>='A' && c<='Z')
@@ -100,6 +101,7 @@ void viginere_crypt(char * key, char * texte, char* chiffre)
 	int decallage=1;
 	int taille = strlen(key);
 	int clef;
+	// je gère plusieur type de clef possible
 	while (texte[i] != '\0'){
 		c = texte[i];
 		clef = key[i%taille]; 
@@ -178,7 +180,7 @@ void des_crypt(char * key, char * texte, char* chiffre, int size)
 
 		des_encipher(blocT, blocR, key); // chiffrage du bloc
 		
-		for (j= 0; j < 8; j++)
+		for (j= 0; j < 8; j++) //on ajoute le bloc au chiffrement final
 		{
 			chiffre[i+j] = blocR[j];
 		}
@@ -208,7 +210,7 @@ void des_decrypt(char * key, char * texte, char* chiffre, int size)
 		des_decipher(blocT, blocR, key); // chiffrage du bloc
 		
 
-		// on met le bloc chiffré dans le résultat
+		// on met le bloc déchiffré dans le résultat
 		for (j= 0; j < 8; j++)
 		{
 			chiffre[i+j] = blocR[j];
@@ -240,10 +242,11 @@ void tripledes_crypt(char * key1, char * key2, char * texte, char* chiffre,int s
 			
 			blocT[j] = texte[i+j];
 		}
-
-		des_encipher(blocT, blocB, key1); // chiffrage du bloc
+		//on chiffre en 3DES ( 1 chiffrement, 1 déchiffrement puis 1 chiffrement)
+		des_encipher(blocT, blocB, key1); 
 		des_decipher(blocB, blocA, key2); 
 		des_encipher(blocA, blocR, key1); 
+
 		// on met le bloc chiffré dans le résultat
 		for (j= 0; j < 8; j++)
 		{
@@ -271,7 +274,7 @@ void tripledes_decrypt(char* key1, char* key2, char* texte, char* chiffre, int s
 			blocT[j] = texte[i+j];
 		}
 
-		des_decipher(blocT, blocB, key1); // chiffrage du bloc
+		des_decipher(blocT, blocB, key1); // On déchiffre en faisant l'inverse du chiffrement 3DES
 		des_encipher(blocB, blocA, key2); 
 		des_decipher(blocA, blocR, key1); 
 
