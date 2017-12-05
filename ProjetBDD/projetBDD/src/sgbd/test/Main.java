@@ -43,7 +43,46 @@ public class Main {
 		Nuplet[] resScan = t.fullScan();//scan toute la table de donnée
 		for(Nuplet n : resScan)
 			System.out.println(n.toString());
+		
+		System.out.println("Test del");
+		t.delete(4, (byte)50);//supprime le 1er nuplet qui a la valeur 50 au 4ème enregistrement
+		Nuplet[] resScan2 = t.fullScan();//scan toute la table de donnée
+		for(Nuplet n : resScan2)
+			System.out.println(n.toString());
+		
+		System.out.println("Test update");
+		t.update(0, (byte)96,(byte)17);
+		Nuplet[] resSca = t.fullScan();//scan toute la table de donnée
+		for(Nuplet n : resSca)
+			System.out.println(n.toString());
+		
+		
+		
+		RestrictionInt r = new RestrictionInt();
+		System.out.println("Test Restriction égalité");
+		Nuplet[] result = r.egalite(resScan, 0, (byte)23);//scan toute la table de donnée
+		for(Nuplet n : result)
+			System.out.println(n.toString());
+		System.out.println("Test Restriction sup");
+		result = r.superieur(resScan, 0, (byte)91);//scan toute la table de donnée
+		for(Nuplet n : result)
+			System.out.println(n.toString());
+		System.out.println("Test Restriction inf");
+		result = r.inferieur(resScan, 0, (byte)6);//scan toute la table de donnée
+		for(Nuplet n : result)
+			System.out.println(n.toString());
+		
+		
+		ProjectionInt p = new ProjectionInt();
+		System.out.println("Test Projection");
+		int[] atts={0,1,7,9};
+		result = p.project(resScan, atts);//scan toute la table de donnée
+		for(Nuplet n : result)
+			System.out.println(n.toString());
+		
 		}
+	
+	
 	
 	
 	

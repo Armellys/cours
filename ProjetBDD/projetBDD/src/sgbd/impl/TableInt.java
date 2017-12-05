@@ -73,18 +73,35 @@ public class TableInt implements Table{
 	}
 
 	@Override
-	public void delete(Nuplet n, int att, Object value) {
-		
+	public void delete(int att, Object value) {
+		int i=0;
+		for(i=0;i<this.size();i++){
+			Nuplet temp = this.get(i);
+			if((byte)(temp.getAtt(att)) == (byte)value){
+				break;
+			}
+		}
+		records--;
+		f.deleteLine(i);
 		// TODO Auto-generated method stub
 		
 	}
 	
 	public void deletePos(int pos){
 		f.deleteLine(pos);
+		records--;
 	}
 
 	@Override
-	public void update(Nuplet n, int att, Object oldValue, Object newValue) {
+	public void update(int att, Object oldValue, Object newValue) {
+		int i=0;
+		for(i=0;i<this.size();i++){
+			Nuplet temp = this.get(i);
+			if((byte)(temp.getAtt(att)) == (byte)oldValue){
+				break;
+			}
+		}
+		f.update(i, newValue, att);
 		// TODO Auto-generated method stub
 		
 	}

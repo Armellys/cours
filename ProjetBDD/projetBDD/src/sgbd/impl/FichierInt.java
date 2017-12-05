@@ -13,12 +13,14 @@ public class FichierInt implements Fichier{
 	public FichierInt(String filePath, int nupletSize){
 		this.fp = filePath;
 		this.nupletSize = nupletSize;
+		currentLength =0;
 	}
 
 	public void store(int pos, Object o) {
 		try {
 			this.f = new RandomAccessFile(this.fp, "rw");
 			//NupletInt n = (NupletInt) o;
+			currentLength++;
 			byte[] b = new byte[nupletSize];
 			for(int i=0;i<nupletSize;i++)
 				b[i] = (byte)((NupletInt) o).getAtt(i);
@@ -33,36 +35,41 @@ public class FichierInt implements Fichier{
 		
 		try {
 		this.f = new RandomAccessFile(this.fp, "rw");
-        int counter = 0, target = pos;
-        long offset = 0, length = 0;
-        while (f.readLine() != null) {
-            counter++;
-			if (counter == target)
-                break; // Found target line's offset
-            offset = f.getFilePointer();
-        }
-
-        length = f.getFilePointer() - offset;
-
-        if (target > counter) {
-            f.close();
-            throw new IOException("No such line!");
-        }
-
-        byte[] buffer = new byte[4096];
-        int read = -1; // will store byte reads from file.read()
-        while ((read = f.read(buffer)) > -1){
-            f.seek(f.getFilePointer() - read - length);
-            f.write(buffer, 0, read);
-            f.seek(f.getFilePointer() + length);
-        }
-        f.setLength(f.length() - length); //truncate by length
-        f.close();
+		byte[] buffer = new byte[nupletSize];
+		for (int i = pos;i<currentLength;i++){
+			f.seek((i+1)*nupletSize);
+			f.read(buffer);
+			f.seek((i)*nupletSize);
+			f.write(buffer, 0, nupletSize);
+		}
+		
+		currentLength--;
+		System.out.println(this.currentLength+"             ");
+		f.setLength(currentLength*nupletSize);
+		f.close();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
     }
+	
+	public void update(int pos, Object Value, int att) {
+		
+		try {
+		this.f = new RandomAccessFile(this.fp, "rw");
+		f.seek(pos*nupletSize);
+		byte[] buffer = new byte[nupletSize];
+		f.read(buffer);
+		buffer[att]=(byte)Value;
+		f.seek(pos*nupletSize);
+		f.write(buffer, 0, nupletSize);
+		f.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+    }
+	
 
 
 	

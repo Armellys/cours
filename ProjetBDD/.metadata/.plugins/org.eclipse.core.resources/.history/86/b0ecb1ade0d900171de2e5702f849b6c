@@ -1,0 +1,30 @@
+package sgbd.impl;
+
+import sgbd.operateurs.Restriction;
+import sgbd.stockage.Nuplet;
+
+public class RestrictionInt implements Restriction {
+
+	public RestrictionInt() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public Nuplet[] egalite(Nuplet[] t, int att, Object v) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Nuplet[] superieur(Nuplet[] t, int att, Object v) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Nuplet[] inferieur(Nuplet[] t, int att, Object v) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
