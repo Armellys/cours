@@ -1,6 +1,6 @@
 package sgbd.impl;
 
-
+import java.util.Vector;
 
 import sgbd.operateurs.Projection;
 import sgbd.stockage.Nuplet;
@@ -13,7 +13,9 @@ public class ProjectionInt implements Projection {
 
 	@Override
 	public Nuplet[] project(Nuplet[] t, int[] atts) {
-		
+		// TODO Auto-generated method stub
+		Vector<Nuplet> vec = new Vector<Nuplet>();
+		//NupletInt n = new NupletInt(atts.length);
 		NupletInt[] n = new NupletInt[t.length];
 		byte[] b = new byte[atts.length];
 		for(int i =0;i<n.length;i++){

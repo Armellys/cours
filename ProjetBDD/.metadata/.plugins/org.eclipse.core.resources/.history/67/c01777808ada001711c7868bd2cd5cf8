@@ -1,6 +1,6 @@
 package sgbd.impl;
 
-
+import java.util.Vector;
 
 import sgbd.operateurs.Projection;
 import sgbd.stockage.Nuplet;
