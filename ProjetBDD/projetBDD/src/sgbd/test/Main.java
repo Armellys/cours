@@ -76,16 +76,22 @@ public class Main {
 		ProjectionInt p = new ProjectionInt();
 		System.out.println("Test Projection");
 		int[] atts={0,1,7,9};
-		result = p.project(resScan, atts);//scan toute la table de donnée
+		Nuplet[] resultProj = p.project(resScan, atts);//scan toute la table de donnée
+		for(Nuplet n : resultProj)
+			System.out.println(n.toString());
+		
+		JointureInt j = new JointureInt();
+		System.out.println("Test Jointure");
+		result = j.jointure(resultProj, resScan, 1, 2);
 		for(Nuplet n : result)
 			System.out.println(n.toString());
 		
+		
+		
+		
+		
+		
 		}
-	
-	
-	
-	
-	
 
 	}
 

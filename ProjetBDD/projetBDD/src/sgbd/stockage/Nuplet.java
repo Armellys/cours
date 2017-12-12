@@ -13,5 +13,7 @@ public interface Nuplet {
 	
 	public int size();
 	
+	public byte[] getValues();
+	
 	public String toString();
 }
