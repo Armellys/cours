@@ -1,0 +1,50 @@
+package sgbd.impl;
+
+import java.util.Hashtable;
+import java.util.Vector;
+import java.security.*;
+import sgbd.operateurs.Jointure;
+import sgbd.stockage.Nuplet;
+
+public class JointureH implements Jointure{
+
+	public JointureH() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public Nuplet[] jointure(Nuplet[] t1, Nuplet[] t2, int att1, int att2) {
+		
+		//byte[] byteChaine = maChaine.getBytes(UTF-8);
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			Hashtable<byte[],Vector<Nuplet>> tHash= new Hashtable<byte[],Vector<Nuplet>>();
+		
+			for(int i=0;i<t1.length;i++){
+				byte[] b = t1[i].getValues();
+				byte[] hash = md.digest(b);
+				Vector<Nuplet> v = tHash.get(b);
+				if(v==null){
+					Vector<Nuplet> vec = new Vector<Nuplet>();
+					vec.add(t1[i]);
+					tHash.put(hash, v);
+				}
+				else{
+					v.add(t1[i]);
+					tHash.put(hash, v);
+				}
+			}
+			
+			System.out.println("table hache : "+tHash);
+		
+			
+			
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+}

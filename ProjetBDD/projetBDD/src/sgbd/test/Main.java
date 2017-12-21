@@ -86,6 +86,13 @@ public class Main {
 		for(Nuplet n : result)
 			System.out.println(n.toString());
 		
+		JointureH jH = new JointureH();
+		System.out.println("Test JointureHash");
+		Nuplet[] result2 = jH.jointure(resultProj, resScan, 1, 2);
+		for(Nuplet n : result2)
+			System.out.println(n.toString());
+	
+		
 		
 		
 		

@@ -1,0 +1,81 @@
+package sgbd.impl;
+
+import java.util.Hashtable;
+import java.util.Vector;
+import java.security.*;
+import sgbd.operateurs.Jointure;
+import sgbd.stockage.Nuplet;
+
+public class JointureH implements Jointure{
+
+	public JointureH() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public Nuplet[] jointure(Nuplet[] t1, Nuplet[] t2, int att1, int att2) {
+		
+		//byte[] byteChaine = maChaine.getBytes(UTF-8);
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			Hashtable<byte[],Vector<Nuplet>> tHash= new Hashtable<byte[],Vector<Nuplet>>();
+			Vector<Nuplet> res = new Vector<Nuplet>();
+			
+			for(int i=0;i<t1.length;i++){
+				byte[] b = {(byte)t1[i].getAtt(att1)};
+				byte[] hash = md.digest(b);
+				Vector<Nuplet> v = tHash.get(hash);
+				//System.out.println("v : "+v);
+				if(v==null){
+					Vector<Nuplet> vec = new Vector<Nuplet>();
+					vec.add(t1[i]);
+					//System.out.println("vec : "+vec);
+					tHash.put(hash, vec);
+				}
+				else{
+					v.add(t1[i]);
+					tHash.put(hash, v);
+				}
+			}
+			for(int i=0;i<t2.length;i++){
+				byte[] b = {(byte)t2[i].getAtt(att2)};
+				byte[] hash = md.digest(b);
+				Vector<Nuplet> v = tHash.get(hash);
+				System.out.println("v : "+v);
+				if(v!=null){
+				for(int j=0;j<v.size();j++){
+					Nuplet n = v.elementAt(j);
+					int a = n.size()+t2[i].size();
+					byte[] bn = new byte[a];
+					System.arraycopy(n.getValues(), 0, bn, 0, n.size());
+					System.arraycopy(t2[i].getValues(), 0, bn, n.size(), t2[i].size());
+					NupletInt ni = new NupletInt(bn);
+					res.addElement(ni);
+				}
+				}
+				
+				
+			}
+			
+			Nuplet[] ret = new Nuplet[res.size()];
+			for(int i=0;i<res.size();i++)
+				ret[i] = res.elementAt(i);
+			return ret;
+			
+			
+			//System.out.println("table hache : "+tHash);
+			
+		
+			
+			
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return null;
+	}
+
+}
