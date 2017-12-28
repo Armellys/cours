@@ -92,10 +92,26 @@ public class Main {
 		for(Nuplet n : result2)
 			System.out.println(n.toString());
 	
-		
-		
-		
-		
+		JointureS jS = new JointureS();
+		System.out.println("Test Jointure SortMergeJoin");
+		NupletInt[] t1 = new NupletInt[5];
+		byte[] b = {3,4,5};
+		t1[0] = new NupletInt(b);
+		byte[] b1={0,7,6};
+		t1[1] = new NupletInt(b1);
+		byte[] b2={8,2,60};
+		t1[2] = new NupletInt(b2);
+		byte[] b3={4,57,24};
+		t1[3] = new NupletInt(b3);
+		byte[] b4 = {3,8,36};
+		t1[4] = new NupletInt(b4);
+		System.out.println("Jointure avec la tables de base et celle ci :");
+		for(Nuplet n : t1)
+			System.out.println(n.toString());
+		System.out.println("Résultat");
+		Nuplet[] nJS = jS.jointure(t1, resScan, 0, 0);
+		for(Nuplet n : nJS)
+			System.out.println(n.toString());
 		
 		
 		}
