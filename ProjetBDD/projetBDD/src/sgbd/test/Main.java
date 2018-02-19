@@ -33,7 +33,7 @@ public class Main {
 			}
 		
 		// Utilisation de getByAtt
-		System.out.println("Test GetByAtt");
+		System.out.println("Test GetByAtt (renvois le Nuplet qui a la valeur 50 pour l'attribut 4");
 		Nuplet[] res = t.getByAtt(4, (byte)50);//renvoie les nuplets qui ont la valeur 50 au 4ème enregistrement
 		for(Nuplet n : res){
 			System.out.println(n.toString());
@@ -44,13 +44,13 @@ public class Main {
 		for(Nuplet n : resScan)
 			System.out.println(n.toString());
 		
-		System.out.println("Test del");
+		System.out.println("Test del (supprime le 1er nuplet qui a la valeur 50 au 4ème enregistrement)");
 		t.delete(4, (byte)50);//supprime le 1er nuplet qui a la valeur 50 au 4ème enregistrement
 		Nuplet[] resScan2 = t.fullScan();//scan toute la table de donnée
 		for(Nuplet n : resScan2)
 			System.out.println(n.toString());
 		
-		System.out.println("Test update");
+		System.out.println("Test update (change l'attribut 0 du nuplet qui a 96 sur cette attribut en 17");
 		t.update(0, (byte)96,(byte)17);
 		Nuplet[] resSca = t.fullScan();//scan toute la table de donnée
 		for(Nuplet n : resSca)
@@ -59,35 +59,35 @@ public class Main {
 		
 		
 		RestrictionInt r = new RestrictionInt();
-		System.out.println("Test Restriction égalité");
+		System.out.println("Test Restriction égalité (23 pour l'attribut 0)");
 		Nuplet[] result = r.egalite(resScan, 0, (byte)23);//scan toute la table de donnée
 		for(Nuplet n : result)
 			System.out.println(n.toString());
-		System.out.println("Test Restriction sup");
+		System.out.println("Test Restriction sup (à 91 pour l'attribut 0)");
 		result = r.superieur(resScan, 0, (byte)91);//scan toute la table de donnée
 		for(Nuplet n : result)
 			System.out.println(n.toString());
-		System.out.println("Test Restriction inf");
+		System.out.println("Test Restriction inf (à 6 pour l'attribut 0)");
 		result = r.inferieur(resScan, 0, (byte)6);//scan toute la table de donnée
 		for(Nuplet n : result)
 			System.out.println(n.toString());
 		
 		
 		ProjectionInt p = new ProjectionInt();
-		System.out.println("Test Projection");
+		System.out.println("Test Projection sur les attributs 0 1 7 9");
 		int[] atts={0,1,7,9};
 		Nuplet[] resultProj = p.project(resScan, atts);//scan toute la table de donnée
 		for(Nuplet n : resultProj)
 			System.out.println(n.toString());
 		
 		JointureInt j = new JointureInt();
-		System.out.println("Test Jointure");
+		System.out.println("Test Jointure sur l'attribut 1 pour la 1ère table (resultat de la projection) et attribut 2 de la table de base");
 		result = j.jointure(resultProj, resScan, 1, 2);
 		for(Nuplet n : result)
 			System.out.println(n.toString());
 		
 		JointureH jH = new JointureH();
-		System.out.println("Test JointureHash");
+		System.out.println("Test JointureHash sur l'attribut 1 pour la 1ère table (resultat de la projection) et attribut 2 de la table de base");
 		Nuplet[] result2 = jH.jointure(resultProj, resScan, 1, 2);
 		for(Nuplet n : result2)
 			System.out.println(n.toString());
@@ -105,7 +105,7 @@ public class Main {
 		t1[3] = new NupletInt(b3);
 		byte[] b4 = {3,8,36};
 		t1[4] = new NupletInt(b4);
-		System.out.println("Jointure avec la tables de base et celle ci :");
+		System.out.println("Jointure avec la tables de base et celle ci (toutes les deux sur l'attribut 0) :");
 		for(Nuplet n : t1)
 			System.out.println(n.toString());
 		System.out.println("Résultat");

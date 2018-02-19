@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
-<typeInfo handle="=projetBDD/src&lt;sgbd.operateurs{Restriction.java[Restriction" modifiers="513" timestamp="1512487831000"/>
-<typeInfo handle="=projetBDD/src&lt;sgbd.operateurs{Projection.java[Projection" modifiers="513" timestamp="1512487831000"/>
-<typeInfo handle="=projetBDD/\/usr\/lib\/jvm\/java-8-openjdk-amd64\/jre\/lib\/rt.jar&lt;javax.annotation.processing(ProcessingEnvironment.class[ProcessingEnvironment" modifiers="1537" timestamp="1509545877000"/>
-<typeInfo handle="=projetBDD/src&lt;sgbd.operateurs{Jointure.java[Jointure" modifiers="513" timestamp="1512487831000"/>
+<typeInfo handle="=projetBDD/src&lt;sgbd.operateurs{Restriction.java[Restriction" modifiers="513" timestamp="1513088626000"/>
+<typeInfo handle="=projetBDD/src&lt;sgbd.operateurs{Projection.java[Projection" modifiers="513" timestamp="1513088626000"/>
+<typeInfo handle="=projetBDD/\/usr\/lib\/jvm\/java-8-openjdk-amd64\/jre\/lib\/rt.jar&lt;javax.annotation.processing(ProcessingEnvironment.class[ProcessingEnvironment" modifiers="1537" timestamp="1477404965000"/>
+<typeInfo handle="=projetBDD/src&lt;sgbd.operateurs{Jointure.java[Jointure" modifiers="513" timestamp="1513088626000"/>
 </typeInfoHistroy>
