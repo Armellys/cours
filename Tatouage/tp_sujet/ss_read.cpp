@@ -1,3 +1,13 @@
+/***********************
+
+Adèle Journée
+
+TP de Tatouage 
+
+4A STI INSA CVL 2018
+
+
+***********************/
 #include "dct.h"
 #include "image.h"
 #include "mtrand.h"
@@ -6,7 +16,7 @@
 
 #define N 		32 
 #define NDCT	12
-#define ALPHA 	0.5 
+//#define ALPHA 	0.5 
 
 // Les coefficients DCT qui seront marqués 
 static unsigned int C[NDCT] = {1, 2, 3, 4, 8, 9, 10, 11, 16, 17, 18, 24};
@@ -21,6 +31,7 @@ int main(int argc, char** argv)
 		
 		return -1; 
 	}
+	
 	
 	// Message 
 	vector<double> M(N, 0); 
@@ -56,6 +67,19 @@ int main(int argc, char** argv)
 
 	// Lecture du tatouage 	
 	// Todo 
+	// on itère dans le même ordre que l'criture pour avoir les mêmes nombre avec mtrand 
+	for(int j=0; j<X.size(); j++){
+		for(int i=0; i<N; i++)
+		{
+			if(mtrand()%2){
+				M[i]+=*(X[j]);// ici la matrice est à 1
+			}
+			else{
+				M[i]+=*(X[j])*(-1);// ici elle est à -1
+			}
+		}
+		
+	}
 	
 	
 

@@ -18,7 +18,7 @@ TP de Tatouage
 
 #define N 	32 
 #define NDCT	12
-#define DELTA 	20.0 
+//#define DELTA 	20.0 
 
 // Les coefficients DCT qui seront marqués 
 static unsigned int C[NDCT] = {1, 2, 3, 4, 8, 9, 10, 11, 16, 17, 18, 24};
@@ -35,6 +35,10 @@ int main(int argc, char** argv)
 		
 		return -1; 
 	}
+	// définition du Delta en fonction du PSNR
+	float PSNR = 40.0;
+
+	float DELTA = sqrt((255*255*64)/pow(10.0,PSNR/10));
 	
 	long message = strtol(argv[3], NULL, 10); 
 	
@@ -61,7 +65,7 @@ int main(int argc, char** argv)
 			for(int i=0; i<NDCT; i++)
 			{
 				const unsigned int x  = 8*bx + C[i]%8;  
-        			const unsigned int y  = 8*by + C[i]/8;
+        		const unsigned int y  = 8*by + C[i]/8;
         
 				X[cur++]=&(src_dct(x, y)); 
 			}

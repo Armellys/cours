@@ -1,3 +1,13 @@
+/***********************
+
+Adèle Journée
+
+TP de Tatouage 
+
+4A STI INSA CVL 2018
+
+
+***********************/
 #include "dct.h"
 #include "image.h"
 #include "mtrand.h"

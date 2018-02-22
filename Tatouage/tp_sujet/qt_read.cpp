@@ -17,7 +17,7 @@ TP de Tatouage
 #include <limits.h>
 #define N 		32 
 #define NDCT	12
-#define DELTA 	20.0 
+//#define DELTA 	20.0 
 
 // Les coefficients DCT qui seront marqués 
 static unsigned int C[NDCT] = {1, 2, 3, 4, 8, 9, 10, 11, 16, 17, 18, 24};
@@ -32,7 +32,10 @@ int main(int argc, char** argv)
 		
 		return -1; 
 	}
-	
+	// définition du Delta en fonction du PSNR
+	float PSNR = 40.0;
+
+	float DELTA = sqrt((255*255*64)/pow(10.0,PSNR/10));
 	// Message 
 	vector<int> M(N, 0); 
 	
