@@ -48,7 +48,6 @@ Mat myimFiltreMed(Mat im, Mat masque){
 
 			for (int j = -(int)(masque.size().width/2); j<=(int)(masque.size().width/2); j++){
 				pixel[h]= im.at<uchar>(k-i,l-j);
-				
 				h++;	
 				
 			}	
@@ -90,12 +89,12 @@ int main(int argc, char *argv[])
 	
 
 	//affichage de l'image
-	namedWindow("MonImageC", WINDOW_AUTOSIZE);	// containeur
-	imshow("MonImageC",imC);				// affichage de l'image im
-	namedWindow("MonImage", WINDOW_AUTOSIZE);
-	imshow("MonImage",im);
-	namedWindow("MonImageF", WINDOW_AUTOSIZE);
-	imshow("MonImageF",imF);
+	namedWindow("MonImageConvolution", WINDOW_AUTOSIZE);	// containeur
+	imshow("MonImageConvolution",imC);				// affichage de l'image im
+	namedWindow("MonImageBase", WINDOW_AUTOSIZE);
+	imshow("MonImageBase",im);
+	namedWindow("MonImageFiltrée", WINDOW_AUTOSIZE);
+	imshow("MonImageFiltrée",imF);
 	waitKey(0);
 	return 0;
 }
