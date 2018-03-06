@@ -216,6 +216,6 @@ function drawScene() {
 
 		setMatrixUniforms();
 
-		gl.drawArrays(gl.LINE_LOOP, 0, vertexBuffer.numItems);
+		gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.numItems);
 	}
 }

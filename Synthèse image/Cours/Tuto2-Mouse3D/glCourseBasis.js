@@ -48,14 +48,30 @@ function initBuffers() {
 	vertexBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
 	vertices = [
-							-0.3, -0.3, 0.0,
-							-0.3,  0.3, 0.0,
-							 0.3,  0.3, 0.0,
-							 0.3, -0.3, 0.0
+							-1, -1.0, 0.0,
+							-1,  1.0, 0.0,
+							 1,  1.0, 0.0,
+							 1, -1.0, 0.0
 							];
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 	vertexBuffer.itemSize = 3;
 	vertexBuffer.numItems = 4;
+
+	centreBuffer = gl.createBuffer();
+	PsX = 36 / 720;
+	PsY = 24 / 480;
+	gl.bindBuffer(gl.ARRAY_BUFFER, centreBuffer);
+	center = [
+							-18+PsX/2.0, 50, 12-PsY/2.0,
+							-18+PsX/2.0, 50, -12+PsY/2.0,
+							18-PsX/2.0, 50, -12+PsY/2.0,
+							18-PsX/2.0, 50, 12-PsY/2.0,
+							
+							];
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(center), gl.STATIC_DRAW);
+	centreBuffer.itemSize = 3;
+	centreBuffer.numItems = 4;
+
 }
 
 
@@ -108,13 +124,16 @@ function initShaders(vShaderTxt,fShaderTxt) {
 	gl.linkProgram(shaderProgram);
 
 	if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-		console.log("Could not initialise shaders");
+		console.log("Could not in/itialise shaders");
 	}
 
 	gl.useProgram(shaderProgram);
 
 	shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
 	gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+
+	shaderProgram.vertexCentreAttribute= gl.getAttribLocation(shaderProgram, "aVertexCentre");
+	gl.enableVertexAttribArray(shaderProgram.vertexCentreAttribute);
 
 	shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
 	shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
@@ -136,11 +155,14 @@ function drawScene() {
   if(shaderProgram != null) {
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,
-                           vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                           vertexBuffer.itemSize/*3 car 3D*/, gl.FLOAT, false, 0, 0);
+     gl.bindBuffer(gl.ARRAY_BUFFER, centreBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexCentreAttribute,
+                           centreBuffer.itemSize/*3 car 3D*/, gl.FLOAT, false, 0, 0);
 
     mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
     mat4.identity(mvMatrix);
-    mat4.translate(mvMatrix, [0.0, 0.0, -2.0]);
+    mat4.translate(mvMatrix, [0.0, 0.0, -5.0]);
     mat4.multiply(mvMatrix, objMatrix);
 
     setMatrixUniforms();
