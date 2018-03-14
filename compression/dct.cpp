@@ -68,10 +68,16 @@ int main(int argc, char *argv[])
 	Mat image = imread("camion.pgm", 0);
 	int nbBloc = (image.cols/8) * (image.rows/8);
 	Mat tabIm[nbBloc];
-	tabBloc(image,tabIm,nbBloc);
+	Mat tabDct[nbBloc];
+	tabBloc(image,tabIm,nbBloc); // met tous les blocs dans le tableau tabIm
 
-	/*Mat dctBloc=Mat(8,8,CV_32FC1);
-	dct(monBloc,dctBloc);*/
+	for (int i = 0; i < nbBloc; ++i)
+	{
+		dct(tabIm[i],tabDct[i]);
+	}
+
+	Mat dctBloc=Mat(8,8,CV_32FC1);
+	dct(monBloc,dctBloc);
 
 	Mat result = inverseBloc(tabIm, image, image.cols/8);
 	normalize(result,result, 0, 1, NORM_MINMAX);
