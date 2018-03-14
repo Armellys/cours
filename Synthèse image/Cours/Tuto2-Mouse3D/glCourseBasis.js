@@ -9,6 +9,9 @@ var vertexBuffer;
 var mvMatrix = mat4.create();
 var pMatrix = mat4.create();
 var objMatrix = mat4.create();
+var matPixmv = mat3.create();
+var matPixp = mat3.create();
+var inc = 0;
 mat4.identity(objMatrix);
 
 
@@ -137,14 +140,16 @@ function initShaders(vShaderTxt,fShaderTxt) {
 
 	shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
 	shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+	incLocation = gl.getUniformLocation(shaderProgram,"inc");
 }
 
 
 // =====================================================
 function setMatrixUniforms() {
 	if(shaderProgram != null) {
-		gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-		gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+		gl.uniformMatrix3fv(shaderProgram.pMatrixUniform, false, mat4.toMat3(pMatrix, matPixp));
+		gl.uniformMatrix3fv(shaderProgram.mvMatrixUniform, false, mat4.toMat3(mvMatrix, matPixmv));
+		gl.uniform1i(incLocation, inc);
 	}
 }
 
@@ -162,7 +167,7 @@ function drawScene() {
 
     mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
     mat4.identity(mvMatrix);
-    mat4.translate(mvMatrix, [0.0, 0.0, -5.0]);
+   // mat4.translate(mvMatrix, [0.0, 0.0, -5.0]);
     mat4.multiply(mvMatrix, objMatrix);
 
     setMatrixUniforms();

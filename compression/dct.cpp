@@ -62,6 +62,27 @@ Mat inverseBloc (Mat tabIm[], Mat image, int nbBlocLigne){// remet le tableau de
 
 }
 
+void getQuantification(string f,int tabQ[8][8]){
+
+	ifstream fichier(f);  // on ouvre le fichier en lecture
+
+        if(fichier)  
+        {    
+		for(int i = 0; i<8; i++){
+			for(int j = 0; j<8; j++){
+				fichier >> tabQ[i][j];
+				cout << tabQ[i][j] <<  " ";
+			}  
+			cout << endl;
+		}  
+                fichier.close();  
+        }
+
+        else  
+                cerr << "Impossible d'ouvrir le fichier !" << endl;
+
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -70,20 +91,29 @@ int main(int argc, char *argv[])
 	Mat tabIm[nbBloc];
 	Mat tabDct[nbBloc];
 	tabBloc(image,tabIm,nbBloc); // met tous les blocs dans le tableau tabIm
-
+	
+	//dct
 	for (int i = 0; i < nbBloc; ++i)
-	{
-		dct(tabIm[i],tabDct[i]);
+	{	
+		dct(tabIm[i]-128,tabDct[i]);
 	}
 
-	Mat dctBloc=Mat(8,8,CV_32FC1);
-	dct(monBloc,dctBloc);
+	//quantification
+	int tabQ[8][8];
+	
+	getQuantification("quantification.txt",tabQ);
+	//zigzag
+
+	/*Mat dctBloc=Mat(8,8,CV_32FC1);
+	dct(monBloc,dctBloc);*/
 
 	Mat result = inverseBloc(tabIm, image, image.cols/8);
+	Mat dct = inverseBloc(tabDct, image, image.cols/8);
 	normalize(result,result, 0, 1, NORM_MINMAX);
+	normalize(dct,dct, 0, 1, NORM_MINMAX);
 	
 
-	imshow( "mon image", result );
+	imshow( "mon image", dct );
 	waitKey(0);
 	//cout << nbBloc << endl << endl;
 	/*Mat fimage;
