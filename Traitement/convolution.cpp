@@ -29,14 +29,14 @@ Mat myimconv(Mat im, Mat masque){
 		imConv.at<float>(k,l) = pixel;
 	}
 	}
-	double min, max;
-	minMaxLoc(imConv,&min,&max);
-	Mat imC; 
+	//double min, max;
+	//minMaxLoc(imConv,&min,&max);
+	//Mat imC; 
 
 	//imConv.convertTo(imC,CV_32FC1, 1.0/abs(max-min),-min*1.0/abs(max-min)); // convertit en float entre 0 et 1
-	imConv.convertTo(imC,CV_8UC1, 255.0/abs(max-min),min*255.0/abs(max-min));
+	//imConv.convertTo(imC,CV_8UC1, 255.0/abs(max-min),min*255.0/abs(max-min));
 
-	return imC;
+	return imConv;
 }
 
 void calc_conv(Mat& src, Mat& dst, Mat& mask, int x, int y)
@@ -137,17 +137,17 @@ Mat sqrtMat(Mat im){
 	int dimX = im.size().width;
 	int dimY = im.size().height;
 
-	Mat result;
+	Mat result = Mat(im.size().height,im.size().width,CV_32FC1);;
 	result = Mat(dimX, dimY, CV_32FC1);
 	
 	for(int x=1; x<dimX; x++)
 	{
 		for(int y=1; y<dimY; y++)
 		{
-			result.at<uchar>(x,y)= sqrt((float)im.at<uchar>(x,y));
+			result.at<float>(x,y)= sqrt(im.at<float>(x,y));
 		}
 	}
-	normalize_float(result);
+	//normalize_float(result);
 	return result;
 }
 
@@ -155,14 +155,14 @@ Mat carreMat(Mat im){
 	int dimX = im.size().width;
 	int dimY = im.size().height;
 
-	Mat result;
+	Mat result = Mat(im.size().height,im.size().width,CV_32FC1);
 	result = Mat(dimX, dimY, CV_32FC1);
 	
 	for(int x=1; x<dimX; x++)
 	{
 		for(int y=1; y<dimY; y++)
 		{
-			result.at<uchar>(x,y)= (float)im.at<uchar>(x,y)*(float)im.at<uchar>(x,y);
+			result.at<float>(x,y)= im.at<float>(x,y)*im.at<float>(x,y);
 		}
 	}
 	//normalize_float(result);
@@ -170,41 +170,85 @@ Mat carreMat(Mat im){
 }
 
 
+float mulSum(Mat src, int i, int j, Mat mask){
+
+	float sum = 0.0 ;
+	for (int l =0   ; l<mask.size().height ; l++){
+		for (int k =0  ; k<mask.size().width ; k++){
+		     sum += (float)src.at<uchar>(i-l,j-k)*mask.at<float>(l,k);
+		
+		}
+	}
+
+	return sum ;
+}
+
+int myConv2D(Mat src, Mat mask, Mat dest){//fonction du prof
+
+	int ihwin = (int)(mask.size().height/2) ;
+	int jhwin = (int)(mask.size().width/2) ;
+
+	int i, j;
+	for (i = ihwin  ; i<src.size().height-ihwin ; i++){
+		for (j = jhwin  ; j<src.size().width-jhwin ; j++){
+	           dest.at<float>(i,j) = mulSum(src,i,j,mask);
+	            
+		}
+
+	}
+
+	return 0 ;
+}
+
 
 
 int main(int argc, char *argv[])
 {
 	
 	Mat im;
-	im = imread("LennaBruit.png", 0); // CV_LOAD_IMAGE_COLOR = 1
+	im = imread("l.png", 0); // CV_LOAD_IMAGE_COLOR = 1
 
 	if (!im.data){
 		printf("No image Data");
 		return -1;
 	}
 	
-	Mat MasqueH1 = (Mat_<float>(3,3) << -1, 0, 1,-2, 0, 2, -1, 0, 1);
-	Mat MasqueH2 = (Mat_<float>(3,3) << -1, -2, -1, 0, 0, 0, 1, 2, 1);
-	Mat Masque = (Mat_<float>(3,3) << 1/9, 1/9, 1/9,1/9, 1/9, 1/9, 1/9, 1/9, 1/9);
-	cout << "Masque = " << endl << " " << Masque << endl << endl;
-	//cout << "taille : " << Masque.size().height;
-	//Mat imC = myimconv(im,Masque);
-	Mat imF = myimFiltreMed(im,Masque);
-	Mat imContour = convolution(imF,MasqueH1)+ convolution(imF,MasqueH2);
-	Mat carre = carreMat(imF);
-	Mat imC = sqrtMat(convolution(carre,MasqueH1)+ convolution(carre,MasqueH2));//Sobel contour
 	
+	Mat Masque = (Mat_<float>(3,3) << 1/9, 1/9, 1/9,1/9, 1/9, 1/9, 1/9, 1/9, 1/9);
+	
+	float a[9]={-1.0,-2.0,-1.0,0.0,0.0,0.0,1.0,2.0,1.0};
+    float b[9]={-1.0,0.0,1.0,-2.0,0.0,2.0,-1.0,0.0,1.0};
+		
+    Mat H1 = Mat(3,3,CV_32FC1,a);
+    Mat H2 = Mat(3,3,CV_32FC1,b);
 
+	Mat imF = myimFiltreMed(im,Masque);
+	
+	Mat imH1 = Mat(imF.size().height,imF.size().width,CV_32FC1);	
+	myConv2D(imF,H1,imH1);
+
+	Mat imH2 = Mat(imF.size().height,imF.size().width,CV_32FC1);
+	myConv2D(imF,H2,imH2);
+
+	/*normalize(imH1,imH1, 0, 1, NORM_MINMAX);
+	normalize(imH2,imH2, 0, 1, NORM_MINMAX);*/
+
+	Mat carre1 = carreMat(imH1);
+	Mat carre2 = carreMat(imH2);
+	Mat imC = sqrtMat(carre1+carre2);
+
+	normalize(imC,imC, 0, 1, NORM_MINMAX);
+	normalize(imH1,imH1, 0, 1, NORM_MINMAX);
+	normalize(imH2,imH2, 0, 1, NORM_MINMAX);
+	
 	//affichage de l'image
 	
-	namedWindow("MonImageBase", WINDOW_AUTOSIZE);
-	imshow("MonImageBase",im);
-	namedWindow("MonImageFiltrée", WINDOW_AUTOSIZE);
-	imshow("MonImageFiltrée",imF);
-	namedWindow("MonImageConvolution", WINDOW_AUTOSIZE);	// containeur
-	imshow("MonImageConvolution",imC);				// affichage de l'image im
-	namedWindow("H1+H2", WINDOW_AUTOSIZE);	// containeur
-	imshow("H1+H2",imContour);				// affichage de l'image im
+	
+		// containeur
+	imshow("h1",imH1);	
+	imshow("h2",imH2);
+	imshow("MonImageContour",imC);				// affichage de l'image im
+		
 	waitKey(0);
 	return 0;
 }
