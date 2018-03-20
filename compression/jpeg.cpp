@@ -144,28 +144,17 @@ void zigzag(int bloc[SIZE][SIZE], int tab[SIZE*SIZE]){
 }
 
 void RLE (int bloc[SIZE*SIZE], fstream& fichier){ // faire pour tous les symbole et mettre un @
-	int a=0;
-	for (int i = 0; i < SIZE*SIZE; ++i)
+	int a=1, prev=bloc[0];
+	for (int i = 1; i <= SIZE*SIZE; ++i)
 	{
-		
-		if(bloc[i] != 0 ){
-			if (a!=0){
-				fichier << a;
-				fichier<<"[0], ";
-				a=0;
-			}
-			//char b = bloc[i]-128;
-			fichier << bloc[i];
-			//fichier << b;
-			if (i != SIZE*SIZE -1) fichier << ", ";
-		}
+		if(i!=SIZE*SIZE && prev == bloc[i]) a++;
 		else{
-			a++;
-			if(i == SIZE*SIZE -1){
-				fichier << a;
-				fichier << "[0]";
-			}
+			if(a==1) {fichier << prev << " ";}
+			else {fichier << a << "@" << prev << " ";}	
+			a=1;
 		}
+		prev = bloc[i];
+	
 	}
 	fichier <<endl;
 }
