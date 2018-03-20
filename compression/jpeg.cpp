@@ -143,7 +143,7 @@ void zigzag(int bloc[SIZE][SIZE], int tab[SIZE*SIZE]){
 
 }
 
-void RLE (int bloc[SIZE*SIZE], fstream& fichier){
+void RLE (int bloc[SIZE*SIZE], fstream& fichier){ // faire pour tous les symbole et mettre un @
 	int a=0;
 	for (int i = 0; i < SIZE*SIZE; ++i)
 	{
