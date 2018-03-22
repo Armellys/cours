@@ -29,7 +29,7 @@ void test(Mat img,int tab[2],int& somme, int& n, Mat& imEnd){
 	}
 }
 
-int croissance (int seed[2], Mat& imEnd, Mat img, int& somme, int& n){
+void croissance (int seed[2], Mat& imEnd, Mat img, int& somme, int& n){
 
 	imEnd.at<uchar>(seed[0],seed[1]) = 255; // on colorie le pixel sur l'image 
 	int tab[2] = {seed[0]+1,seed[1]}; // on regarde le pixel voisin
@@ -44,7 +44,7 @@ int croissance (int seed[2], Mat& imEnd, Mat img, int& somme, int& n){
 	tab[1] = seed[1]-1;
 	test(img,tab,somme,n,imEnd);
 
-	return 0;
+	
 }
 
 int main(int argc, char *argv[])
