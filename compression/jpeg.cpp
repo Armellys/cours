@@ -150,7 +150,13 @@ void RLE (int bloc[SIZE*SIZE], fstream& fichier){ // faire pour tous les symbole
 
 int main(int argc, char *argv[])
 {
-	Mat image = imread("l.png", 0);
+	if ( argc < 2 ) {
+		cout << "Usage : ./jpeg [photo non compréssée]" << endl;
+		cout << "Exemple : ./jpeg l.png " << endl;
+		cout << "La sortie se trouvera dans \" monjpeg.jpg \"" << endl;
+		return 0;
+	}
+	Mat image = imread(argv[1], 0);
 	int nbBloc = (image.cols/SIZE) * (image.rows/SIZE);
 
 	Mat tabIm[nbBloc]; // contiendra les blocs de l'image
@@ -172,7 +178,8 @@ int main(int argc, char *argv[])
 	}
 
 
-	system("./huffman c rle.txt monjpeg.jpeg"); // on passe notre code rle à Huffman
+	system("./huffman c rle.txt monjpeg.jpg"); // on passe notre code rle à Huffman
+	return 0;
 
 
 }
