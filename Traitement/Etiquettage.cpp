@@ -37,7 +37,7 @@ void fusion (int i, int j, Mat& imEnd, int etiq,bool& fus){
 }
 
 void nombreEtiquette ( Mat imEnd, int& etiq, int& n, int i, int j){
-	//cout << "|";
+	
 	if(j-1>=0 && imEnd.at<uchar>(i,j-1)> 0){etiq = imEnd.at<uchar>(i,j-1); n++;}
 	if(j-1>=0 && i-1>=0 && imEnd.at<uchar>(i-1,j-1)> 0){;
 		n++;
